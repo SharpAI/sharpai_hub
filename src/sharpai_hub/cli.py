@@ -1,20 +1,15 @@
 #!/usr/bin/env python
-# Copyright 2022 The SharpAI Team. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+
 
 from argparse import ArgumentParser
 from sharpai_hub.commands.user import UserCommands
+from sharpai_hub.commands.device import DeviceCommands
+from sharpai_hub.commands.deepcamera import DeepCameraCommands
+from sharpai_hub.commands.deepcamera_local import LocalDeepCameraCommands
+from sharpai_hub.commands.yoloparking import YoloParkingCommands
+from sharpai_hub.commands.falldetection import FallDetectionCommands
+from sharpai_hub.commands.screen_monitor import ScreenMonitorCommands
+from sharpai_hub.commands.yolov7_reid import Yolov7ReIDCommands
 
 def main():
     parser = ArgumentParser(
@@ -24,6 +19,13 @@ def main():
 
     # Register commands
     UserCommands.register_subcommand(commands_parser)
+    DeviceCommands.register_subcommand(commands_parser)
+    DeepCameraCommands.register_subcommand(commands_parser)
+    YoloParkingCommands.register_subcommand(commands_parser)
+    FallDetectionCommands.register_subcommand(commands_parser)
+    LocalDeepCameraCommands.register_subcommand(commands_parser)
+    ScreenMonitorCommands.register_subcommand(commands_parser)
+    Yolov7ReIDCommands.register_subcommand(commands_parser)
 
     # Let's go
     args = parser.parse_args()

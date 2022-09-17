@@ -2,15 +2,17 @@ from setuptools import find_packages, setup
 
 
 def get_version() -> str:
-    return "0.1.0"
+    return "0.1.22"
 
 
 install_requires = [
     "requests",
     "tqdm",
+    "getmac>=0.8.3",
     "pyyaml>=5.1",
     "importlib_metadata;python_version<'3.8'",
     "packaging>=20.9",
+    "Pillow==8.4"
 ]
 
 extras = {}
@@ -29,7 +31,7 @@ setup(
         "model-hub machine-learning models natural-language-processing deep-learning"
         " Edge AI"
     ),
-    license="Apache",
+    license="MIT",
     url="https://github.com/SharpAI/sharpai_hub",
     package_dir={"": "src"},
     packages=find_packages("src"),
@@ -39,13 +41,13 @@ setup(
             "sharpai-cli=sharpai_hub.cli:main"
         ]
     },
-    python_requires=">=3.7.0",
+    python_requires=">=3.6.0",
     install_requires=install_requires,
     classifiers=[
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT Software License",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
