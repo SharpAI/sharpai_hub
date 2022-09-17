@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 
 def get_version() -> str:
-    return "0.1.31"
+    return "0.1.32"
 
 
 install_requires = [
