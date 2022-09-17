@@ -51,6 +51,7 @@ class BaseYolov7ReIDCommands:
         self.yml_path = os.path.join(self.runtime_folder,'docker-compose.yml')
         self.log_path = os.path.join(self.runtime_folder,'log.txt')
         self.labelstudio_server_url = 'http://localhost:8080'
+        self.first_run = True
 
     def check_credential(self):
         pass
@@ -58,6 +59,7 @@ class BaseYolov7ReIDCommands:
         if os.path.exists(self.env_path):
             try:
                 self.load_env()
+                self.first_run = False
                 return True
             except KeyError:
                 return False
@@ -87,6 +89,7 @@ class BaseYolov7ReIDCommands:
         command = f'{self.docker_compose_path} -f {self.yml_path} pull'
 
         output = subprocess.getoutput(command)
+        print(output)
         print('- 2. Starting Labelstudio service', end = '')
 
         command = f'{self.docker_compose_path} -f {self.yml_path} up -d labelstudio'
@@ -151,7 +154,7 @@ class Yolov7ReIDStartCommand(BaseYolov7ReIDCommands):
         response=requests.get(yml_url)
         open(self.yml_path, "wb").write(response.content)
 
-        print('The latest docker-compose.yml is downloaded')
+        print('The latest docker-compose.yml has downloaded')
         # print('Start to pull latest docker images, it will take a while for the first time')
         # print('When service start, please access http://localhost:8080 to access demo GUI')
 
@@ -164,15 +167,15 @@ class Yolov7ReIDStartCommand(BaseYolov7ReIDCommands):
         subprocess.getoutput(command)
 
         log_handle = open(self.log_path,'a')
-        args = [self.docker_compose_path, '-f' , self.yml_path,'up']
-        subprocess.Popen(args= args, cwd=self.runtime_folder, stdout=log_handle, stderr=log_handle)
+        args = [self.docker_compose_path, '-f' , self.yml_path,'up','-d']
+        subprocess.Popen(args= args, cwd=self.runtime_folder)
 
         print('Starting service')
-        print('Please follow the instruction to setup Home-Assistant: https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
 
-        time.sleep(3)
-
-        webbrowser.open('https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
+        if self.first_run:
+            print('Please follow the instruction to setup Home-Assistant: https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
+            time.sleep(3)
+            webbrowser.open('https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
 
 class Yolov7ReIDStopCommand(BaseYolov7ReIDCommands):
     def run(self):
