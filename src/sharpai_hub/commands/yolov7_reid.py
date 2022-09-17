@@ -52,6 +52,7 @@ class BaseYolov7ReIDCommands:
         self.log_path = os.path.join(self.runtime_folder,'log.txt')
         self.labelstudio_server_url = 'http://localhost:8080'
         self.first_run = True
+        self.telegram_token = None
 
     def check_credential(self):
         pass
@@ -73,11 +74,19 @@ class BaseYolov7ReIDCommands:
         # self.labelstudio_server_url = envs['LABEL_STUDIO_URL']
         self.labelstudio_project_id = envs['LABEL_STUDIO_PROJECT_ID']
         self.labelstudio_token = envs['LABEL_STUDIO_TOKEN']
+
+        try:
+            self.telegram_token = envs['TELEGRAM_TOKEN']
+        except KeyError:
+            self.telegram_token = None
     def save_environments(self):
         with open(self.env_path, "w") as f:
             f.write(f"LABEL_STUDIO_URL=http://labelstudio:8080\n")
             f.write(f"LABEL_STUDIO_PROJECT_ID={self.labelstudio_project_id}\n")
             f.write(f"LABEL_STUDIO_TOKEN={self.labelstudio_token}\n")
+
+            if self.telegram_token != None:
+                f.write(f"TELEGRAM_TOKEN={self.telegram_token}\n")
         
     def helper_to_setup_labelstudio(self):
         os.makedirs(self.img_dir, exist_ok=True)
@@ -111,7 +120,7 @@ class BaseYolov7ReIDCommands:
             webbrowser.open(self.labelstudio_server_url)
         except Exception as e:
             pass
-        print('- 4. Please land on Labelstudio UI, Screen Monitor application need Labelstudio token to save screenshots of the entire screen. ALL information will be saved LOCALLY.\n'
+        print('- 4. Please land on Labelstudio UI http://localhost:8080, Screen Monitor application need Labelstudio token to save screenshots of the entire screen. ALL information will be saved LOCALLY.\n'
               '  - 1. In the Label Studio UI, click the user icon in the upper right.\n'
               '  - 2. Click Account & Settings.\n'
               '  - 3. Copy the access token.')
@@ -132,6 +141,10 @@ class BaseYolov7ReIDCommands:
             print('Failed to create labelstudio project. Please file a bug: https://github.com/SharpAI/DeepCamera/issues')
             exit(-1)
         self.labelstudio_project_id = resp['id']
+
+        telegram_token = input('- 5. If you want to use Telegram bot to send message to you, please input the token, otherwise, press Enter to skip:')
+        if telegram_token != '':
+            self.telegram_token = telegram_token
         self.save_environments()
         return True
 
