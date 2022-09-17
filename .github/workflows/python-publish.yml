@@ -21,7 +21,7 @@ jobs:
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.TWINE_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
       run: |
         python setup.py sdist bdist_wheel
-        twine upload dist/* -u $TWINE_USERNAME --verbose -p $TWINE_PASSWORD
+        twine upload dist/* -u "$TWINE_USERNAME" --verbose -p "$TWINE_PASSWORD"
