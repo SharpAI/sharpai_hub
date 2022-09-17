@@ -56,8 +56,11 @@ class BaseYolov7ReIDCommands:
         pass
     def is_labelstudio_configured(self):
         if os.path.exists(self.env_path):
-            self.load_env()
-            return True
+            try:
+                self.load_env()
+                return True
+            except KeyError:
+                return False
         return False
     def get_env_data_as_dict(self, path: str) -> dict:
         with open(path, 'r') as f:
