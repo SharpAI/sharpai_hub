@@ -7,6 +7,7 @@ from shutil import which
 
 from . import BaseSharpAICLICommand
 from ..sharpai_api import SharpAIFolder,SA_API
+from ..utils.debughelper import event
 from ..utils.check_env import check_environment, get_docker_compose_arch_filename
 
 class DeepCameraCommands(BaseSharpAICLICommand):
@@ -76,6 +77,7 @@ class DeepCameraStartCommand(BaseDeepCameraCommands):
         print('Starting DeepCamera with docker-compose')
         args = [self.docker_compose_path, '-f' , yml_path,'up']
         subprocess.Popen( args= args, cwd=self.runtime_folder)
+        event('deepcamera start')
         
 class DeepCameraStopCommand(BaseDeepCameraCommands):
     def run(self):

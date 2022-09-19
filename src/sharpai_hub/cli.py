@@ -2,6 +2,7 @@
 
 
 from argparse import ArgumentParser
+from sharpai_hub.utils.debughelper import event
 from sharpai_hub.commands.user import UserCommands
 from sharpai_hub.commands.device import DeviceCommands
 from sharpai_hub.commands.deepcamera import DeepCameraCommands
@@ -32,6 +33,7 @@ def main():
 
     if not hasattr(args, "func"):
         parser.print_help()
+        event('wrong command format')
         exit(1)
 
     # Run

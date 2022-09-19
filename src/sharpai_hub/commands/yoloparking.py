@@ -6,6 +6,7 @@ from os.path import expanduser
 from shutil import which
 
 from . import BaseSharpAICLICommand
+from ..utils.debughelper import event
 from ..sharpai_api import SharpAIFolder,SA_API
 from ..utils.check_env import check_environment, get_docker_compose_arch_filename
 
@@ -77,6 +78,7 @@ class YoloParkingStartCommand(BaseYoloParkingCommands):
         print('Starting DeepCamera with docker-compose')
         args = [self.docker_compose_path, '-f' , yml_path,'up']
         subprocess.Popen( args= args, cwd=self.runtime_folder)
+        event('yoloparking start')
         
 class YoloParkingStopCommand(BaseYoloParkingCommands):
     def run(self):

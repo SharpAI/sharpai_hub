@@ -11,6 +11,7 @@ from . import BaseSharpAICLICommand
 from ..sharpai_api import SA_API
 from ..utils.check_env import check_environment, get_docker_compose_arch_filename
 from ..utils.screen_capture import screen_capture
+from ..utils.debughelper import event
 from ..utils.labelstudio import check_label_studio_access,create_labelstudio_image_classification_project
 
 class ScreenMonitorCommands(BaseSharpAICLICommand):
@@ -169,6 +170,7 @@ class ScreenMonitorStartCommand(BaseScreenMonitorCommands):
         subprocess.Popen(args= args, cwd=self.runtime_folder, stdout=log_handle, stderr=log_handle)
 
         print('Starting screen monitor')
+        event('screen monitor start')
         self.start_screen_capture()
             
 class ScreenMonitorStopCommand(BaseScreenMonitorCommands):

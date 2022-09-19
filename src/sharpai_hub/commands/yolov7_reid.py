@@ -12,6 +12,7 @@ from . import BaseSharpAICLICommand
 from ..sharpai_api import SA_API
 from ..utils.check_env import check_environment, get_docker_compose_arch_filename
 from ..utils.screen_capture import screen_capture
+from ..utils.debughelper import event
 from ..utils.labelstudio import check_label_studio_access,create_labelstudio_image_classification_project
 
 class Yolov7ReIDCommands(BaseSharpAICLICommand):
@@ -186,9 +187,12 @@ class Yolov7ReIDStartCommand(BaseYolov7ReIDCommands):
         print('Starting service')
 
         if self.first_run:
+            event('yolov7_reid first run')
             print('Please follow the instruction to setup Home-Assistant: https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
             time.sleep(3)
             webbrowser.open('https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
+
+        event('yolov7_reid started')
 
 class Yolov7ReIDStopCommand(BaseYolov7ReIDCommands):
     def run(self):
