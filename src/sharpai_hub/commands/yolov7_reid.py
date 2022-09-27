@@ -102,8 +102,9 @@ class BaseYolov7ReIDCommands:
         print(output)
         print('- 2. Starting Labelstudio service', end = '')
 
-        command = f'{self.docker_compose_path} -f {self.yml_path} up -d labelstudio'
-        output = subprocess.getoutput(command)
+        args = [self.docker_compose_path, '-f' , self.yml_path,'up','-d','labelstudio']
+        subprocess.Popen(args= args, cwd=self.runtime_folder)
+
         while True:
             try:
                 resp = requests.get(self.labelstudio_server_url)
