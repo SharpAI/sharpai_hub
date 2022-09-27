@@ -160,9 +160,6 @@ class Yolov7ReIDStartCommand(BaseYolov7ReIDCommands):
         if docker_compose_yml == None:
             print('Your platform is not supported, please file an issue on github for feature request: https://github.com/SharpAI/DeepCamera/issues')
             exit(-1)
-        if docker_compose_yml != 'docker-compose-x86.yml':
-            print('Only support X86 platform, please file an issue on github for feature request: https://github.com/SharpAI/DeepCamera/issues')
-            exit(-1)
         yml_url = f'https://raw.githubusercontent.com/SharpAI/applications/main/yolov7_reid/{docker_compose_yml}'
 
         response=requests.get(yml_url)

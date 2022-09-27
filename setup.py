@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 
 def get_version() -> str:
-    return "0.1.35"
+    return "0.1.36"
 
 install_requires = [
     "requests",

@@ -1,3 +1,5 @@
+import io
+import os
 import subprocess
 from shutil import which
 import platform
@@ -29,6 +31,21 @@ def check_if_docker_has_permission():
         print('logout/login your account, if there\'s issue still, please reboot')
         #print(output)
         exit(-1)
+def is_raspberrypi():
+    if os.name != 'posix':
+        return False
+    chips = ('BCM2708','BCM2709','BCM2711','BCM2835','BCM2836')
+    try:
+        with io.open('/proc/cpuinfo', 'r') as cpuinfo:
+            for line in cpuinfo:
+                if line.startswith('Hardware'):
+                    _, value = line.strip().split(':', 1)
+                    value = value.strip()
+                    if value in chips:
+                        return True
+    except Exception:
+        pass
+    return False
 def get_docker_compose_arch_filename():
     processor = platform.processor()
     # print(processor)
@@ -54,7 +71,9 @@ def get_docker_compose_arch_filename():
                 docker_compose_yml = 'docker-compose-l4t-r32.6.1.yml'
             elif version[0] == '5' and version[1]=='0':
                 docker_compose_yml = 'docker-compose-l4t-r35.1.0.yml'
-            else:
-                print(f'Your platform dose not support yet, please file a bug: {subprocess.getoutput("apt show nvidia-jetpack")}')
+        elif is_raspberrypi():
+            docker_compose_yml = 'docker-compose-arm64.yml'
+        else:
+            print(f'Your platform dose not support yet, please file a bug: {subprocess.getoutput("apt show nvidia-jetpack")}')
             
     return docker_compose_yml
