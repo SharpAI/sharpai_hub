@@ -96,10 +96,12 @@ class BaseYolov7ReIDCommands:
                 \n- 1. Pulling latest docker images from docker-hub, time may vary depending on you network situation...')
 
         f = open(self.env_path,"w")
-        command = f'{self.docker_compose_path} -f {self.yml_path} pull'
 
-        output = subprocess.getoutput(command)
-        print(output)
+        print('Pulling latest docker images from docker hub...')
+        args = [self.docker_compose_path, '-f' , self.yml_path,'pull']
+        p = subprocess.Popen(args= args, cwd=self.runtime_folder)
+        p.wait()
+
         print('- 2. Starting Labelstudio service', end = '')
 
         args = [self.docker_compose_path, '-f' , self.yml_path,'up','-d','labelstudio']
@@ -175,10 +177,11 @@ class Yolov7ReIDStartCommand(BaseYolov7ReIDCommands):
                 print('Failed to set labelstudio')
                 exit(-1)
 
-        command = f'{self.docker_compose_path} -f {self.yml_path} pull'
-        subprocess.getoutput(command)
+        print('Pulling latest docker images from docker hub...')
+        args = [self.docker_compose_path, '-f' , self.yml_path,'pull']
+        p = subprocess.Popen(args= args, cwd=self.runtime_folder)
+        p.wait()
 
-        log_handle = open(self.log_path,'a')
         args = [self.docker_compose_path, '-f' , self.yml_path,'up','-d']
         subprocess.Popen(args= args, cwd=self.runtime_folder)
 
