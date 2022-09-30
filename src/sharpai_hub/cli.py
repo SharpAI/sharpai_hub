@@ -11,6 +11,7 @@ from sharpai_hub.commands.yoloparking import YoloParkingCommands
 from sharpai_hub.commands.falldetection import FallDetectionCommands
 from sharpai_hub.commands.screen_monitor import ScreenMonitorCommands
 from sharpai_hub.commands.yolov7_reid import Yolov7ReIDCommands
+from sharpai_hub.commands.yolov7_person_detector import Yolov7PersonDetectorCommands
 
 def main():
     parser = ArgumentParser(
@@ -27,6 +28,7 @@ def main():
     LocalDeepCameraCommands.register_subcommand(commands_parser)
     ScreenMonitorCommands.register_subcommand(commands_parser)
     Yolov7ReIDCommands.register_subcommand(commands_parser)
+    Yolov7PersonDetectorCommands.register_subcommand(commands_parser)
 
     # Let's go
     args = parser.parse_args()
