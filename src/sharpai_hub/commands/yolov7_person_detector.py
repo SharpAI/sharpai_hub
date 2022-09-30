@@ -133,6 +133,12 @@ class Yolov7PersonDetectorStartCommand(BaseYolov7PersonDetectorCommands):
         subprocess.Popen(args= args, cwd=self.runtime_folder)
 
         print('Starting service')
+        if self.first_run:
+            event('yolov7_person_detector first run')
+            print('Please follow the instruction to setup Home-Assistant: https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
+            time.sleep(3)
+            webbrowser.open('https://github.com/SharpAI/DeepCamera/blob/master/docs/connect_to_ha.md')
+
         event('yolov7_person_detector started')
 
 class Yolov7PersonDetectorStopCommand(BaseYolov7PersonDetectorCommands):
