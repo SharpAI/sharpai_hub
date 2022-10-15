@@ -48,6 +48,9 @@ def is_raspberrypi():
     return False
 def get_docker_compose_arch_filename():
     processor = platform.processor()
+
+    if processor == '':
+        processor = platform.machine()
     # print(processor)
     arch = None
     docker_compose_yml = None
