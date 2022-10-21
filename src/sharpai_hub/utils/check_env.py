@@ -74,9 +74,12 @@ def get_docker_compose_arch_filename():
                 docker_compose_yml = 'docker-compose-l4t-r32.6.1.yml'
             elif version[0] == '5' and version[1]=='0':
                 docker_compose_yml = 'docker-compose-l4t-r35.1.0.yml'
-        elif is_raspberrypi():
-            docker_compose_yml = 'docker-compose-arm64.yml'
+            else:
+                print(f'Your platform dose not support yet, please file a bug: {subprocess.getoutput("apt show nvidia-jetpack")}')
         else:
-            print(f'Your platform dose not support yet, please file a bug: {subprocess.getoutput("apt show nvidia-jetpack")}')
+            # is_raspberrypi()
+            docker_compose_yml = 'docker-compose-arm64.yml'
+    else:
+        print(f'Your platform dose not support yet, please file a bug: {processor}')
             
     return docker_compose_yml
