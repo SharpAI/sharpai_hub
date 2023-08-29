@@ -63,6 +63,9 @@ def get_docker_compose_arch_filename():
     elif 'Intel64' in processor:
         arch = 'x86'
         docker_compose_yml = 'docker-compose-x86.yml'
+    elif 'AMD64' in processor:
+        arch = 'x86'
+        docker_compose_yml = 'docker-compose-x86.yml'
     elif processor == 'aarch64':
         if 'tegra' in platform.platform():
             arch = 'aarch64'
